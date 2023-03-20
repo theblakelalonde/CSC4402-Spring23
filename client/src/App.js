@@ -3,6 +3,8 @@ import Register from "./pages/register/Register";
 import {
   createBrowserRouter,
   RouterProvider,
+  Outlet,
+  Navigate,
 } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
@@ -14,8 +16,7 @@ import Profile from "./pages/profile/Profile";
 
 function App() {
 
-const { currentUser } = true;
-//useContext(AuthContext)
+const { currentUser } = useContext(AuthContext);
 
 const Layout = () => {
   return(
