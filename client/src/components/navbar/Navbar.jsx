@@ -7,9 +7,11 @@ import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { DarkModeContext } from "../../context/darkModeContext";
 
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
+  const { toggle, darkMode } = useContext(DarkModeContext);
   return (
     <div className="navbar">
       <div className="left">
@@ -17,7 +19,11 @@ const Navbar = () => {
           <span>MOG</span>
         </Link>
         <HomeRoundedIcon className="navbarIcon" />
-        <DarkModeRoundedIcon className="navbarIcon" />
+        {darkMode ? (
+          <LightModeRoundedIcon className="navbarIcon" onClick={toggle} />
+        ) : (
+          <DarkModeRoundedIcon className="navbarIcon" onClick={toggle} />
+        )}
         <div className="search">
           <PersonSearchRoundedIcon className="navbarIcon" />
           <input type="text" placeholder="Search for other users" />

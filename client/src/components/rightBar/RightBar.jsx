@@ -1,6 +1,6 @@
 import "./rightBar.scss";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+// import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+// import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
 const RightBar = () => {
   return (
