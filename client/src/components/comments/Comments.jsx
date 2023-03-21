@@ -10,7 +10,7 @@ const Comments = () => {
         {
           id: 1,
           desc: "Dude massive cannon arms you got there! :O",
-          name: "John Doe",
+          name: "John Cena",
           userId: 1,
           profilePic:
             "https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg",
