@@ -5,8 +5,11 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import PersonSearchRoundedIcon from "@mui/icons-material/PersonSearchRounded";
 import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Navbar = () => {
+  const { currentUser } = useContext(AuthContext);
   return (
     <div className="navbar">
       <div className="left">
@@ -23,11 +26,10 @@ const Navbar = () => {
       <div className="right">
         <InboxRoundedIcon className="navbarIcon" />
         <div className="user">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"
-            alt="Profile"
-          />
-          <span>John Doe</span>
+          <img src={currentUser.profilePic} alt="Profile" />
+          <span>
+            {currentUser.firstName} {currentUser.lastName}
+          </span>
         </div>
       </div>
     </div>
