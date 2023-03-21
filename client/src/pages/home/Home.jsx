@@ -1,9 +1,7 @@
-import "./home.scss"
+import "./home.scss";
 
 const home = () => {
-  return (
-    <div className="home">home</div>
-  )
-}
+  return <div className="home">home</div>;
+};
 
-export default home
+export default home;

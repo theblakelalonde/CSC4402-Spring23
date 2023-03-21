@@ -1,4 +1,4 @@
-import Login from "./pages/login/Login"
+import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import {
   createBrowserRouter,
@@ -61,9 +61,14 @@ const ProtectedRoute = ({children}) => {
       path: "/login",
       element: <Login />,
     }, 
+
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+      path: "/navbar",
+      element: <Navbar />,
     },
   ]);
   return (
