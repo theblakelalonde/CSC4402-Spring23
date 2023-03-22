@@ -4,6 +4,8 @@ import LanguageIcon from "@mui/icons-material/Language";
 import Posts from "../../components/posts/Posts";
 
 const Profile = () => {
+  window.scrollTo(0, 0);
+
   return (
     <div className="profile">
       <div className="images">
