@@ -30,7 +30,7 @@ const Post = ({ post }) => {
               <span className="date">1 min ago</span>
             </div>
           </div>
-          <MoreHorizIcon />
+          <MoreHorizIcon id="threeDotsIcon" />
         </div>
         <div className="content">
           <p>{post.desc}</p>
