@@ -22,8 +22,8 @@ const Post = ({post}) => {
                     <div className="userInfo">
                         <img src={post.profilePic} alt="" />
                         <div className="details">
-                            <Link to={`/profile/${post.userId}`} style={{TextDecoration:"none", color:"inherit"}}>
-                                <span className="name">{post.name}</span>
+                            <Link to={`/profile/${post.userID}`} style={{textDecoration:"none", color:"inherit"}}>
+                                <span className="name">{post.firstName + ' ' + post.lastName}</span>
                             </Link>
                             <span className="date">1 min ago</span>
                         </div>
@@ -54,4 +54,4 @@ const Post = ({post}) => {
     )
 }
 
-export default Post
+export default Post;
