@@ -15,3 +15,7 @@ The intent of this project is to create a social-fitness web application that ca
 | Bryan Tran     | Front End |
 | Horacio Medina | Back End  |
 | Trevor Huval   | Back End  |
+
+## Tasks / Ideas / Features
+- [ ] Live query when searching for friends on navbar
+- [ ] Workout logger
