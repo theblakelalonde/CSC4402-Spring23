@@ -11,7 +11,7 @@ const Comments = ({ postID }) => {
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
 
-  const { isLoading, error, data } = useQuery(["comments"], () =>
+  const { isLoading, error, data } = useQuery(["comments" + postID], () =>
     makeRequest.get("/comments?postID=" + postID).then((res) => {
       return res.data;
     })
@@ -25,7 +25,7 @@ const Comments = ({ postID }) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["comments"]);
+        queryClient.invalidateQueries(["comments" + postID]);
       },
     }
   );
@@ -57,7 +57,12 @@ const Comments = ({ postID }) => {
             <div className="comment">
               <img src={comment.profilePic} alt="" />
               <div className="info">
-                <span>{comment.name}</span>
+                <div className="commentUserInfo">
+                  <span className="bioName">
+                    {comment.firstName} {comment.lastName}
+                  </span>
+                  <span className="userName"> (@{comment.userName})</span>
+                </div>
                 <p>{comment.desc}</p>
               </div>
               <span className="date">
