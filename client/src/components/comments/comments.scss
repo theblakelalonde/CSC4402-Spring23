@@ -48,8 +48,12 @@
         flex-direction: column;
         gap: 3px;
         align-items: flex-start;
-        span {
+        .bioName {
           font-weight: 500;
+        }
+        .userName {
+          font-weight: 300;
+          font-size: 90%;
         }
         p {
           color: themed("textColorSoft");
