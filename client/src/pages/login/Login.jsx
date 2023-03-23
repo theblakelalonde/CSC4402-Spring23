@@ -19,15 +19,19 @@ const Login = () => {
 
   const { login } = useContext(AuthContext);
 
+  const { currentUser } = useContext(AuthContext);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate("/");
     } catch (err) {
       setErr(err.response.data);
     }
   };
+  if (currentUser) {
+    navigate("/");
+  }
 
   return (
     <div className="login">
