@@ -7,7 +7,6 @@ import { makeRequest } from "../../axios";
 import moment from "moment";
 
 const Comments = ({ postID }) => {
-  console.log(postID);
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
 
@@ -63,11 +62,11 @@ const Comments = ({ postID }) => {
                   </span>
                   <span className="userName"> (@{comment.userName})</span>
                 </div>
+                <span className="date">
+                  {moment(comment.createdAt).fromNow()}
+                </span>
                 <p>{comment.desc}</p>
               </div>
-              <span className="date">
-                {moment(comment.createdAt).fromNow()}
-              </span>
             </div>
           ))}
     </div>

@@ -5,6 +5,7 @@ $themes: (
     bgSoft: #f6f3f3,
     textColorSoft: #555,
     border: lightgray,
+    // navbarColor: rgba(255, 255, 255, 0.975),
   ),
   dark: (
     textColor: whitesmoke,
@@ -12,6 +13,7 @@ $themes: (
     bgSoft: #333,
     textColorSoft: lightgray,
     border: #444,
+    // navbarColor: rgba(34, 34, 34, 0.975),
   ),
 );
 
@@ -36,4 +38,10 @@ $themes: (
 
 @function themed($key) {
   @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
 }

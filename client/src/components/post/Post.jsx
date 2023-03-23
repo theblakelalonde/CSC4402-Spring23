@@ -24,9 +24,10 @@ const Post = ({ post }) => {
                 to={`/profile/${post.userID}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">
-                  {post.firstName + " " + post.lastName}
+                <span className="bioName">
+                  {post.firstName} {post.lastName}
                 </span>
+                <span className="userName"> @{post.userName}</span>
               </Link>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>

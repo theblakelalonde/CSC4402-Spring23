@@ -37,6 +37,7 @@ const Profile = () => {
             <button>follow</button>
           </div>
         </div>
+        <div class="separator">POSTS</div>
         <Posts />
       </div>
     </div>

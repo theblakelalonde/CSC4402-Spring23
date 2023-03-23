@@ -7,11 +7,11 @@
     justify-content: space-between;
     padding: 10px 20px;
     height: 50px;
-    border-bottom: 1px solid themed("border");
+    border-bottom: 1px solid themed(border);
     position: sticky;
     top: 0;
-    background-color: themed("bg");
-    color: themed("textColor");
+    background-color: themed(bg);
+    color: themed(textColor);
     z-index: 999;
 
     .navbarIcon {
@@ -42,6 +42,10 @@
           width: 500px;
           background-color: transparent;
           color: themed("textColor");
+
+          @include mobile {
+            display: none;
+          }
         }
         input:focus {
           outline: none;
@@ -53,6 +57,10 @@
       display: flex;
       align-items: center;
       gap: 20px;
+
+      @include mobile {
+        display: none;
+      }
       .user {
         display: flex;
         align-items: center;
