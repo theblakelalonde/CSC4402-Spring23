@@ -12,9 +12,7 @@ import moment from "moment";
 const Post = ({ post }) => {
   //TEMPORARY
   const liked = false;
-
   const [commentOpen, setCommentOpen] = useState(false);
-
   return (
     <div className="post">
       <div className="container">
@@ -30,14 +28,14 @@ const Post = ({ post }) => {
                   {post.firstName + " " + post.lastName}
                 </span>
               </Link>
-              <span className="date">1 min ago</span>
+              <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
           <MoreHorizIcon />
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={post.img} alt="" />
+          <img src={"./upload/" + post.img} alt="" />
         </div>
         <div className="info">
           <div className="item">
