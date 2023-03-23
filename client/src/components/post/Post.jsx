@@ -1,4 +1,4 @@
-import "./post.scss"
+import "./post.scss";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
@@ -9,26 +9,31 @@ import Comments from "../comments/Comments";
 import { useState } from "react";
 import moment from "moment";
 
-const Post = ({post}) => {
-    //TEMPORARY
-    const liked = false;
-    const [commentOpen, setCommentOpen] = useState(false)
-    return (
-        <div className='post'>
-            <div className="container">
-                <div className='user'>
-                    <div className="userInfo">
-                        <img src={post.profilePic} alt="" />
-                        <div className="details">
-                            <Link to={`/profile/${post.userID}`} style={{textDecoration:"none", color:"inherit"}}>
-                                <span className="name">{post.firstName + ' ' + post.lastName}</span>
-                            </Link>
-                            <span className="date">1 min ago</span>
-                        </div>
-                    </div>
-                    <MoreHorizIcon/>
-                </div>
-                <div className="content">
+const Post = ({ post }) => {
+  //TEMPORARY
+  const liked = false;
+  const [commentOpen, setCommentOpen] = useState(false);
+  return (
+    <div className="post">
+      <div className="container">
+        <div className="user">
+          <div className="userInfo">
+            <img src={post.profilePic} alt="" />
+            <div className="details">
+              <Link
+                to={`/profile/${post.userID}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <span className="name">
+                  {post.firstName + " " + post.lastName}
+                </span>
+              </Link>
+              <span className="date">{moment(post.createdAt).fromNow()}</span>
+            </div>
+          </div>
+          <MoreHorizIcon />
+        </div>
+        <div className="content">
           <p>{post.desc}</p>
           <img src={"./upload/" + post.img} alt="" />
         </div>
