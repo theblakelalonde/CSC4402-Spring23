@@ -28,27 +28,28 @@ const Post = ({post}) => {
                     </div>
                     <MoreHorizIcon/>
                 </div>
-                <div className="content">
-          <p>{post.desc}</p>
-          <img src={"./upload/" + post.img} alt="" />
+                <div className='content'>
+                    <p>{post.desc}</p>
+                    <img src={post.img} alt="" />
+                </div>
+                <div className='info'>
+                    <div className="item">
+                        {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+                        69 Likes
+                    </div>
+                    <div className="item" onClick={()=>setCommentOpen(!commentOpen)}>
+                        <TextsmsOutlinedIcon />
+                        3 Comments
+                    </div>
+                    <div className="item">
+                        <ShareOutlinedIcon />
+                        10 Shares
+                    </div>
+                </div>
+                {commentOpen && <Comments/>}
+            </div>
         </div>
-        <div className="info">
-          <div className="item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            69 Likes
-          </div>
-          <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
-            <TextsmsOutlinedIcon />3 Comments
-          </div>
-          <div className="item">
-            <ShareOutlinedIcon />
-            10 Shares
-          </div>
-        </div>
-        {commentOpen && <Comments />}
-      </div>
-    </div>
-  );
-};
+    )
+}
 
 export default Post;
