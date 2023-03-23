@@ -28,14 +28,14 @@ const Post = ({ post }) => {
                   {post.firstName + " " + post.lastName}
                 </span>
               </Link>
-              <span className="date">{moment(post.createdAt).fromNow()}</span>
+              <span className="date">1 min ago</span>
             </div>
           </div>
           <MoreHorizIcon />
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={"./upload/" + post.img} alt="" />
+          <img src={post.img} alt="" />
         </div>
         <div className="info">
           <div className="item">
