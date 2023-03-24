@@ -58,9 +58,6 @@
       align-items: center;
       gap: 20px;
 
-      @include mobile {
-        display: none;
-      }
       .user {
         display: flex;
         align-items: center;
@@ -73,6 +70,11 @@
           height: 30px;
           border-radius: 50%;
           object-fit: cover;
+        }
+        span {
+          @include mobile {
+            display: none;
+          }
         }
       }
     }
