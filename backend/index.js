@@ -8,6 +8,7 @@ import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import commentRoutes from "./routes/comments.js";
 import likeRoutes from "./routes/likes.js";
+import suggestionRoutes from "./routes/suggestions.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import multer from "multer";
@@ -46,6 +47,7 @@ app.use("/backend/auth", authRoutes);
 app.use("/backend/users", userRoutes);
 app.use("/backend/posts", postRoutes);
 app.use("/backend/comments", commentRoutes);
+app.use("/backend/suggestions", suggestionRoutes);
 app.use("/backend/likes", likeRoutes);
 
 app.listen(8800, () => {

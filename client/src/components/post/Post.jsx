@@ -10,9 +10,10 @@ import { useState } from "react";
 import moment from "moment";
 
 const Post = ({ post }) => {
-  //TEMPORARY
   const liked = false;
   const [commentOpen, setCommentOpen] = useState(false);
+  // console.log(post);
+
   return (
     <div className="post">
       <div className="container">

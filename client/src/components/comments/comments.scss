@@ -63,6 +63,7 @@
         }
         p {
           color: themed("textColorSoft");
+          font-size: 85%;
           @include mobile {
             font-size: 85%;
           }
