@@ -45,3 +45,9 @@ $themes: (
     @content;
   }
 }
+
+.pageLayout {
+  @include themify($themes) {
+    background-color: themed(bgSoft);
+  }
+}
