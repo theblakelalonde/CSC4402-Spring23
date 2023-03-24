@@ -9,7 +9,7 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import { DarkModeContext } from "./context/darkModeContext";
-import { QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "./components/navbar/Navbar";
 import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
@@ -21,14 +21,14 @@ function App() {
 
   const { darkMode } = useContext(DarkModeContext);
 
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
   const Layout = () => {
     return (
       <QueryClientProvider client={queryClient}>
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
           <Navbar />
-          <div style={{ display: "flex" }}>
+          <div className="pageLayout" style={{ display: "flex" }}>
             <div style={{ flex: 6 }}>
               <Outlet />
             </div>
