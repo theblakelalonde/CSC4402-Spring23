@@ -14,6 +14,7 @@ export const getPosts = (req, res) => {
     LEFT JOIN relationships AS r ON (p.userID = r.followedUserID) WHERE r.followerUserID= ? OR p.userID =?
     ORDER BY p.createdAt DESC`;
 
+
     db.query(q, [userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);

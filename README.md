@@ -19,3 +19,4 @@ The intent of this project is to create a social-fitness web application that ca
 ## Tasks / Ideas / Features
 - [ ] Live query when searching for friends on navbar
 - [ ] Workout logger
+- [ ] Logout Function on profile page
