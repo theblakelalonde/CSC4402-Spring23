@@ -49,11 +49,8 @@ const Post = ({ post }) => {
         </div>
         <div className="info">
           <div className="item">
-            {/* {liked ? 
-              <FavoriteOutlinedIcon /> 
-              : 
-              <FavoriteBorderOutlinedIcon />} */}
-            {data.length} Likes
+            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+            {data === undefined ? 0 : data.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />3 Comments
