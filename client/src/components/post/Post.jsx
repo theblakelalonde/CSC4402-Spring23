@@ -17,7 +17,6 @@ const Post = ({ post }) => {
 
   const { isLoading, error, data } = useQuery(["likes", post.postsID], () =>
     makeRequest.get("/likes?postID=" + post.postsID).then((res) => {
-      console.log("likes res.data: " + res.data);
       return res.data;
     })
   );

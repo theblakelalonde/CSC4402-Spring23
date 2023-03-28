@@ -75,13 +75,23 @@
           }
         }
         .right {
-          button {
+          display: flex;
+          align-items: center;
+          background-color: #ef4239;
+          padding: 0px 10px 0px 5px;
+          border-radius: 25px;
+          span {
+            font-weight: bold;
+            color: white;
+            font-size: 15px;
+          }
+          .postButton {
             border: none;
             padding: 5px;
+            // color: #ef4239;
             color: white;
             cursor: pointer;
-            background-color: #5271ff;
-            border-radius: 3px;
+            font-size: 25px;
           }
         }
       }
