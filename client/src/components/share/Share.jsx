@@ -3,6 +3,7 @@ import Image from "../../assets/img.png";
 import Friend from "../../assets/friend.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 
@@ -83,7 +84,12 @@ const Share = () => {
             </div>
           </div>
           <div className="right">
-            <button onClick={handleClick}>Share</button>
+            <AddCircleRoundedIcon
+              className="postButton"
+              onClick={handleClick}
+            />
+            <span>POST</span>
+            {/* <button onClick={handleClick}>Share</button> */}
           </div>
         </div>
       </div>
