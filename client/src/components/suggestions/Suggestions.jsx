@@ -2,6 +2,7 @@ import "./suggestions.scss";
 import Suggestion from "../suggestion/Suggestion";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const Suggestions = () => {
   const { isLoading, error, data } = useQuery(["suggestions"], () =>
@@ -12,7 +13,15 @@ const Suggestions = () => {
 
   return (
     <div className="suggestions">
-      <span>Suggestions For You</span>
+      <div className="suggestionTitle">
+        <span>Suggestions For You</span>
+        <div
+          title="These users are suggested for you based on friends of your friends"
+          className="iconDiv"
+        >
+          <InfoOutlinedIcon id="suggestionInfoIcon" />
+        </div>
+      </div>
       {error
         ? "Something went wrong!"
         : isLoading
