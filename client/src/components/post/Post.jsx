@@ -6,12 +6,34 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import moment from "moment";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
   const liked = false;
   const [commentOpen, setCommentOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const {currentUser} = useContext(AuthContext);
+
+  const deleteMutation = useMutation(
+    (postID) => {
+    return makeRequest.delete("/posts/" + postID);
+    },
+    {
+      onSuccess: () => {
+        QueryClient.invalidateQueries(["posts"])
+      }
+    }
+  )
+
+  const handleDelete = () =>{
+    deleteMutation.mutate(post.postsID)
+  }
+
   // console.log(post);
 
   return (
@@ -33,7 +55,9 @@ const Post = ({ post }) => {
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon />
+          <MoreHorizIcon className="threeDots" onClick={()=>setMenuOpen(!menuOpen)}/>
+          {menuOpen && post.userID === currentUser.userID && 
+          <button onClick={handleDelete}>Delete</button>}
         </div>
         <div className="content">
           <p>{post.desc}</p>
