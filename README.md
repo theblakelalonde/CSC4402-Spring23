@@ -30,5 +30,5 @@ The intent of this project is to create a social-fitness web application that ca
 - [ ] Delete comments
 - [ ] Change Latest Activity to "checked-in at gym"
 - [ ] Dark mode no longer refreshes the page enitrely
-- [ ] Create account auto logs you in
+- [x] Create account auto logs you in
 - [ ] Post must have either text or image

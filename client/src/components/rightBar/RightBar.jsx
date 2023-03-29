@@ -1,4 +1,5 @@
 import Suggestions from "../suggestions/Suggestions";
+import CheckedInContainer from "../checked-in-container/CheckedInContainer";
 import "./rightBar.scss";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
@@ -12,8 +13,9 @@ const RightBar = () => {
     <div className="rightBar">
       <div className="container">
         <Suggestions userID={currentUser.userID} />
-        <div className="item">
-          <span>Latest Activites</span>
+        <CheckedInContainer userID={currentUser.userID} />
+        {/* <div className="item">
+          <span>Friends Checked In</span>
           <div className="user">
             <div className="userInfo">
               <img
@@ -62,7 +64,7 @@ const RightBar = () => {
             </div>
             <span>1 min ago</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

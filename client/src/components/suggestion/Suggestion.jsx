@@ -13,9 +13,12 @@ const Suggestion = ({ user }) => {
       <div className="user">
         <div className="userInfo">
           <img src={user.profilePic} alt="" />
-          <span>
-            {user.firstName} {user.lastName}
-          </span>
+          <p>
+            <span id="bioName">
+              {user.firstName} {user.lastName}
+            </span>
+            &nbsp;@{user.userName}
+          </p>
         </div>
         <div className="buttons">
           <button>Follow</button>
