@@ -17,7 +17,7 @@ const Suggestions = () => {
         ? "Something went wrong!"
         : isLoading
         ? "loading"
-        : data.map((user) => <Suggestion user={user} key={user.id} />)}
+        : data.map((user) => <Suggestion user={user} key={user.userID} />)}
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 
 const Suggestion = ({ user }) => {
-  console.log(user);
   const { currentUser } = useContext(AuthContext);
 
   return (
