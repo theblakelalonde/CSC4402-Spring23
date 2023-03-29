@@ -19,6 +19,10 @@
       cursor: pointer;
     }
 
+    #personSearchIcon {
+      cursor: default;
+    }
+
     .left {
       display: flex;
       align-items: center;
@@ -30,27 +34,27 @@
         color: #ef4239;
       }
 
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: 1px solid themed("border");
-        border-radius: 5px;
-        padding: 5px;
-        input {
-          border: none;
-          width: 500px;
-          background-color: transparent;
-          color: themed("textColor");
+      // .search {
+      //   display: flex;
+      //   align-items: center;
+      //   gap: 10px;
+      //   border: 1px solid themed("border");
+      //   border-radius: 5px;
+      //   padding: 5px;
+      //   input {
+      //     border: none;
+      //     width: 500px;
+      //     background-color: transparent;
+      //     color: themed("textColor");
 
-          @include mobile {
-            display: none;
-          }
-        }
-        input:focus {
-          outline: none;
-        }
-      }
+      //     @include mobile {
+      //       display: none;
+      //     }
+      //   }
+      //   input:focus {
+      //     outline: none;
+      //   }
+      // }
     }
 
     .right {

@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { DarkModeContext } from "../../context/darkModeContext";
 import axios from "axios";
+import Search from "../search/Search";
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
@@ -28,8 +29,8 @@ const Navbar = () => {
           <DarkModeRoundedIcon className="navbarIcon" onClick={toggle} />
         )}
         <div className="search">
-          <PersonSearchRoundedIcon className="navbarIcon" />
-          <input type="text" placeholder="Search for other users" />
+          {/* <input type="text" placeholder="Search for other users" /> */}
+          <Search currentUser={currentUser} />
         </div>
       </div>
       <div className="right">
