@@ -50,10 +50,13 @@
           border-radius: 5px;
 
           &:first-child {
+            border: none;
+            padding: 5px;
             background-color: rgb(10, 179, 18);
-          }
-          &:last-child {
-            background-color: red;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
           }
         }
       }

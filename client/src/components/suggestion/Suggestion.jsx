@@ -21,8 +21,7 @@ const Suggestion = ({ user }) => {
           </p>
         </div>
         <div className="buttons">
-          <button>Follow</button>
-          <button>Dismiss</button>
+          <button>FOLLOW</button>
         </div>
       </div>
     </div>
