@@ -25,7 +25,7 @@ const CheckedInContainer = ({ userID }) => {
         ? "Something went wrong!"
         : isLoading
         ? "loading"
-        : data.map((user) => <CheckedIn user={user} />)}
+        : data.map((user) => <CheckedIn user={user} key={user.userID} />)}
     </div>
   );
 };
