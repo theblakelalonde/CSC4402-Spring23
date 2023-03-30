@@ -2,6 +2,7 @@ import "./comments.scss";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
@@ -9,6 +10,7 @@ import moment from "moment";
 const Comments = ({ postID }) => {
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { isLoading, error, data } = useQuery(["comments" + postID], () =>
     makeRequest.get("/comments?postID=" + postID).then((res) => {
@@ -33,6 +35,21 @@ const Comments = ({ postID }) => {
     e.preventDefault();
     mutation.mutate({ desc, postID });
     setDesc("");
+  };
+
+  const deleteCommentMutation = useMutation(
+    (commentID) => {
+      return makeRequest.delete("/comments/" + commentID);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["comments"]);
+      },
+    }
+  );
+
+  const handleDeleteComment = () => {
+    deleteCommentMutation.mutate(postID.commentID);
   };
 
   return (
@@ -67,6 +84,13 @@ const Comments = ({ postID }) => {
                 </span>
                 <p>{comment.desc}</p>
               </div>
+              <MoreHorizIcon
+                className="threeDots"
+                onClick={() => setMenuOpen(!menuOpen)}
+               />
+              {menuOpen && comment.userID === currentUser.userID && (
+              <button onClick={handleDeleteComment}>Delete</button>
+              )}
             </div>
           ))}
     </div>
