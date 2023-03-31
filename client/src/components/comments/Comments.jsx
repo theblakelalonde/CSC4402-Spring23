@@ -2,6 +2,7 @@ import "./comments.scss";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
@@ -16,6 +17,7 @@ const Comments = ({ postID }) => {
     })
   );
 
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -29,10 +31,41 @@ const Comments = ({ postID }) => {
     }
   );
 
+  const openCommentMenu = (commentID, userID) => {
+    var element = document.getElementById(commentID)
+    if (userID === currentUser.userID){
+
+      if(element.style.display === "none"){
+        element.style.display = "initial"
+      }else{
+        element.style.display = "none"
+      }
+    }
+    
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
     mutation.mutate({ desc, postID });
     setDesc("");
+  };
+
+  const deleteCommentMutation = useMutation(
+    (commentID) => {
+      return makeRequest.delete("/comments/" + commentID);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["comments" + postID]);
+      },
+    }
+  );
+
+  const handleDeleteComment = (commentID) => {
+    deleteCommentMutation.mutate(commentID);
+    var element = document.getElementById(commentID)
+    element.style.display = "none"
+
   };
 
   return (
@@ -52,8 +85,8 @@ const Comments = ({ postID }) => {
         ? "Something went wrong"
         : isLoading
         ? "loading"
-        : data.map((comment) => (
-            <div className="comment">
+        : data.map((comment) => ( 
+            <div className="comment" key={comment.commentID} >
               <img src={comment.profilePic} alt="" />
               <div className="info">
                 <div className="commentUserInfo">
@@ -67,6 +100,11 @@ const Comments = ({ postID }) => {
                 </span>
                 <p>{comment.desc}</p>
               </div>
+              <MoreHorizIcon
+                className="threeDots"
+                onClick={() => openCommentMenu(comment.commentID, comment.userID)}
+               />
+              <button id={comment.commentID} style={{display: "none"}} onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
             </div>
           ))}
     </div>
