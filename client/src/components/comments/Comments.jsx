@@ -10,13 +10,13 @@ import moment from "moment";
 const Comments = ({ postID }) => {
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const { isLoading, error, data } = useQuery(["comments" + postID], () =>
     makeRequest.get("/comments?postID=" + postID).then((res) => {
       return res.data;
     })
   );
+
 
   const queryClient = useQueryClient();
 
@@ -31,6 +31,19 @@ const Comments = ({ postID }) => {
     }
   );
 
+  const openCommentMenu = (commentID, userID) => {
+    var element = document.getElementById(commentID)
+    if (userID === currentUser.userID){
+
+      if(element.style.display === "none"){
+        element.style.display = "initial"
+      }else{
+        element.style.display = "none"
+      }
+    }
+    
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
     mutation.mutate({ desc, postID });
@@ -43,13 +56,16 @@ const Comments = ({ postID }) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["comments"]);
+        queryClient.invalidateQueries(["comments" + postID]);
       },
     }
   );
 
-  const handleDeleteComment = () => {
-    deleteCommentMutation.mutate(postID.commentID);
+  const handleDeleteComment = (commentID) => {
+    deleteCommentMutation.mutate(commentID);
+    var element = document.getElementById(commentID)
+    element.style.display = "none"
+
   };
 
   return (
@@ -69,8 +85,8 @@ const Comments = ({ postID }) => {
         ? "Something went wrong"
         : isLoading
         ? "loading"
-        : data.map((comment) => (
-            <div className="comment">
+        : data.map((comment) => ( 
+            <div className="comment" key={comment.commentID} >
               <img src={comment.profilePic} alt="" />
               <div className="info">
                 <div className="commentUserInfo">
@@ -86,11 +102,9 @@ const Comments = ({ postID }) => {
               </div>
               <MoreHorizIcon
                 className="threeDots"
-                onClick={() => setMenuOpen(!menuOpen)}
+                onClick={() => openCommentMenu(comment.commentID, comment.userID)}
                />
-              {menuOpen && comment.userID === currentUser.userID && (
-              <button onClick={handleDeleteComment}>Delete</button>
-              )}
+              <button id={comment.commentID} style={{display: "none"}} onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
             </div>
           ))}
     </div>

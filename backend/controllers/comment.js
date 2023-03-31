@@ -47,6 +47,10 @@ export const deleteComment = (req, res) => {
         const q =
             "DELETE FROM comments WHERE `commentID` = ? AND `userID` = ?";
 
+        console.log("commentID: " + req.params.commentID);
+        console.log("userID: " + userInfo.id);
+
+
         db.query(q, [req.params.commentID, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
             if (data.affectedRows > 0) return res.status(200).json("Comment has been deleted.");
