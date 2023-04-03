@@ -2,7 +2,12 @@ import "./profile.scss";
 import PlaceIcon from "@mui/icons-material/Place";
 import LanguageIcon from "@mui/icons-material/Language";
 import Posts from "../../components/posts/Posts";
-import { AuthContext } from "./context/authContext";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { makeRequest } from "../../axios";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 const Profile = () => {
   window.scrollTo(0, 0);
@@ -53,16 +58,12 @@ const Profile = () => {
           alt=""
           className="cover"
         />
-        <img
-          src="https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-          alt=""
-          className="profilePic"
-        />
+        <img src={data.profilePic} alt="" className="profilePic" />
       </div>
       <div className="profileContainer">
         <div className="uInfo">
           <div className="center">
-            <span>Jane Doe</span>
+            <span>{data.userName}</span>
             <div className="info">
               <div className="item">
                 <PlaceIcon />
