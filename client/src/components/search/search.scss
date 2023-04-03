@@ -1,0 +1,88 @@
+@import "../../style.scss";
+
+.search {
+  @include themify($themes) {
+    .searchBox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid themed("border");
+      border-radius: 5px;
+      padding: 5px;
+
+      input {
+        border: none;
+        width: 500px;
+        background-color: transparent;
+        color: themed("textColor");
+
+        @include mobile {
+          display: none;
+        }
+      }
+      input:focus {
+        outline: none;
+      }
+    }
+    .searchResults {
+      -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      border-radius: 20px;
+      background-color: themed("bg");
+      color: themed("textColor");
+      position: sticky;
+      background-color: themed(bg);
+      //   padding: 10px;
+      position: absolute;
+      top: 54px;
+      width: 525px;
+
+      .searchResult {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: themed("textColor");
+        padding: 5px;
+        cursor: pointer;
+
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .bioName {
+          color: themed(textColor);
+          font-size: 15px;
+          font-weight: 400;
+        }
+        .userName {
+          font-weight: 300;
+          font-size: 90%;
+          color: themed(textColorSoft);
+
+          @include mobile {
+            font-size: 85%;
+          }
+        }
+      }
+      .searchResult:not(:last-child) {
+        border-bottom: 1px solid themed(border);
+      }
+      .searchResult:first-child {
+        border-radius: 20px 20px 0px 0px;
+      }
+      .searchResult:last-child {
+        border-radius: 0px 0px 20px 20px;
+      }
+      .searchResult:only-child {
+        border-radius: 20px 20px 20px 20px;
+      }
+      .searchResult:hover {
+        background-color: themed(border);
+      }
+    }
+  }
+}

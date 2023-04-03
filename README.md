@@ -21,7 +21,7 @@ The intent of this project is to create a social-fitness web application that ca
 
 ## Tasks / Ideas / Features
 
-- [ ] Live query when searching for friends on navbar
+- [x] Live query when searching for friends on navbar
 - [ ] Workout logger
 - [x] Logout Function on profile page
 - [ ] Get user information for profile page
@@ -30,5 +30,5 @@ The intent of this project is to create a social-fitness web application that ca
 - [ ] Delete comments
 - [ ] Change Latest Activity to "checked-in at gym"
 - [ ] Dark mode no longer refreshes the page enitrely
-- [ ] Create account auto logs you in
+- [x] Create account auto logs you in
 - [ ] Post must have either text or image

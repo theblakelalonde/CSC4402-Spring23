@@ -1,15 +1,7 @@
 @import "../../style.scss";
 
-.suggestions {
+.suggestionItem {
   @include themify($themes) {
-    -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
-    -moz-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
-    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    background-color: themed(bg);
-
     span {
       color: themed(textColorSoft);
     }
@@ -32,13 +24,16 @@
           object-fit: cover;
         }
 
-        span {
-          font-weight: 500;
-          color: themed(textColor);
-        }
-
         p {
-          color: themed(textColor);
+          font-weight: 300;
+          font-size: 90%;
+          color: themed(textColorSoft);
+
+          #bioName {
+            font-weight: 500;
+            font-size: 110%;
+            color: themed(textColor);
+          }
         }
       }
 
@@ -55,10 +50,13 @@
           border-radius: 5px;
 
           &:first-child {
+            border: none;
+            padding: 5px;
             background-color: rgb(10, 179, 18);
-          }
-          &:last-child {
-            background-color: red;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
           }
         }
       }
