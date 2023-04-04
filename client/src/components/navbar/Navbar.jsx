@@ -2,7 +2,7 @@ import "./navbar.scss";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import PersonSearchRoundedIcon from "@mui/icons-material/PersonSearchRounded";
+import FitnessCenterRoundedIcon from "@mui/icons-material/FitnessCenterRounded";
 import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const Navbar = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span>MOG</span>
         </Link>
-        <HomeRoundedIcon className="navbarIcon" />
+        {/* <HomeRoundedIcon className="navbarIcon" /> */}
         {darkMode ? (
           <LightModeRoundedIcon className="navbarIcon" onClick={toggle} />
         ) : (
@@ -34,6 +34,12 @@ const Navbar = () => {
         </div>
       </div>
       <div className="right">
+        <Link
+          to={`/workout/`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <FitnessCenterRoundedIcon className="navbarIcon" />
+        </Link>
         <InboxRoundedIcon className="navbarIcon" />
         <div className="user">
           <img src={currentUser.profilePic} alt="Profile" />

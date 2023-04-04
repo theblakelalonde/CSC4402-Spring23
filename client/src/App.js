@@ -14,6 +14,7 @@ import Navbar from "./components/navbar/Navbar";
 import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
+import Workout from "./pages/workout/Workout";
 import "./style.scss";
 
 function App() {
@@ -62,6 +63,10 @@ function App() {
         {
           path: "/profile/:id",
           element: <Profile />,
+        },
+        {
+          path: "/workout/",
+          element: <Workout />,
         },
       ],
     },
