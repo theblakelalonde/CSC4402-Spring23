@@ -104,10 +104,6 @@ const Post = ({ post }) => {
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />3 Comments
           </div>
-          <div className="item">
-            <ShareOutlinedIcon />
-            10 Shares
-          </div>
         </div>
         {commentOpen && <Comments postID={post.postsID} />}
       </div>

@@ -1,0 +1,6 @@
+@import "../../style.scss";
+
+.workout {
+  @include themify($themes) {
+  }
+}
