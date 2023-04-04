@@ -2,7 +2,6 @@ import "./checkedIn.scss";
 import moment from "moment";
 
 const CheckedIn = ({ user }) => {
-  console.log(user);
   return (
     <div className="checkedInItem">
       <div className="user">

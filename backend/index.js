@@ -8,6 +8,7 @@ import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import commentRoutes from "./routes/comments.js";
 import likeRoutes from "./routes/likes.js";
+import relationshipRoutes from "./routes/relationships.js";
 import suggestionRoutes from "./routes/suggestions.js";
 import searchRoutes from "./routes/searches.js";
 import checkedInRoutes from "./routes/checkedIns.js";
@@ -51,6 +52,7 @@ app.use("/backend/posts", postRoutes);
 app.use("/backend/comments", commentRoutes);
 app.use("/backend/suggestions", suggestionRoutes);
 app.use("/backend/likes", likeRoutes);
+app.use("/backend/relationships", relationshipRoutes);
 app.use("/backend/checkedIn", checkedInRoutes);
 app.use("/backend/searches", searchRoutes);
 

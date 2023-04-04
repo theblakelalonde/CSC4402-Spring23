@@ -15,10 +15,12 @@ const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
-  const userId = parseInt(useLocation().pathname.split("/")[2]);
+  const userID = parseInt(useLocation().pathname.split("/")[2]);
+  console.log(userID);
 
   const { isLoading, error, data } = useQuery(["user"], () =>
-    makeRequest.get("/users/find/" + userId).then((res) => {
+    makeRequest.get("/users/find/" + userID).then((res) => {
+      console.log("inside query in Profile.jsx. user object: " + res.data);
       return res.data;
     })
   );
@@ -26,7 +28,8 @@ const Profile = () => {
   const { isLoading: rIsLoading, data: relationshipData } = useQuery(
     ["relationship"],
     () =>
-      makeRequest.get("/relationships?followedUserId=" + userId).then((res) => {
+      makeRequest.get("/relationships?followedUserID=" + userID).then((res) => {
+        console.log("Line 30" + res.data);
         return res.data;
       })
   );
@@ -36,8 +39,8 @@ const Profile = () => {
   const mutation = useMutation(
     (following) => {
       if (following)
-        return makeRequest.delete("/relationships?userId=" + userId);
-      return makeRequest.post("/relationships", { userId });
+        return makeRequest.delete("/relationships?userID=" + userID);
+      return makeRequest.post("/relationships", { userID });
     },
     {
       onSuccess: () => {
@@ -47,39 +50,56 @@ const Profile = () => {
   );
 
   const handleFollow = () => {
-    mutation.mutate(relationshipData.includes(currentUser.id));
+    mutation.mutate(relationshipData.includes(currentUser.userID));
   };
 
+  console.log(data);
   return (
     <div className="profile">
-      <div className="images">
-        <img
-          src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt=""
-          className="cover"
-        />
-        <img src={data.profilePic} alt="" className="profilePic" />
-      </div>
-      <div className="profileContainer">
-        <div className="uInfo">
-          <div className="center">
-            <span>{data.userName}</span>
-            <div className="info">
-              <div className="item">
-                <PlaceIcon />
-                <span>Baton Rouge</span>
-              </div>
-              <div className="item">
-                <LanguageIcon />
-                <span>Mog</span>
+      {isLoading ? (
+        "loading"
+      ) : (
+        <>
+          <div className="images">
+            <img
+              src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              alt=""
+              className="cover"
+            />
+            <img src={data.profilePic} alt="" className="profilePic" />
+          </div>
+          <div className="profileContainer">
+            <div className="uInfo">
+              <div className="center">
+                <span>{data.userName}</span>
+                <div className="info">
+                  <div className="item">
+                    <PlaceIcon />
+                    <span>Baton Rouge</span>
+                  </div>
+                  <div className="item">
+                    <LanguageIcon />
+                    <span>Mog</span>
+                  </div>
+                </div>
+                {rIsLoading ? (
+                  "loading"
+                ) : userID === currentUser.userID ? (
+                  <button onClick={() => setOpenUpdate(true)}>update</button>
+                ) : (
+                  <button onClick={handleFollow}>
+                    {relationshipData.includes(currentUser.userID)
+                      ? "Following"
+                      : "Follow"}
+                  </button>
+                )}
               </div>
             </div>
-            <button>follow</button>
+            <div className="separator">POSTS</div>
+            <Posts />
           </div>
-        </div>
-        <div class="separator">POSTS</div>
-        <Posts />
-      </div>
+        </>
+      )}
     </div>
   );
 };
