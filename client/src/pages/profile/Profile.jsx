@@ -16,7 +16,6 @@ const Profile = () => {
   const { currentUser } = useContext(AuthContext);
 
   const userID = parseInt(useLocation().pathname.split("/")[2]);
-  console.log(userID);
 
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userID).then((res) => {
@@ -28,10 +27,13 @@ const Profile = () => {
   const { isLoading: rIsLoading, data: relationshipData } = useQuery(
     ["relationship"],
     () =>
-      makeRequest.get("/relationships?followedUserID=" + userID).then((res) => {
-        console.log("Line 30" + res.data);
-        return res.data;
-      })
+      makeRequest
+        .get("/relationships?followerUserID=" + currentUser.userID)
+        .then((res) => {
+          console.log("relationshipData: ");
+          console.log(res.data);
+          return res.data;
+        })
   );
 
   const queryClient = useQueryClient();
@@ -40,7 +42,7 @@ const Profile = () => {
     (following) => {
       if (following)
         return makeRequest.delete("/relationships?userID=" + userID);
-      return makeRequest.post("/relationships", { userID });
+      return makeRequest.post("/relationships?userID=" + userID);
     },
     {
       onSuccess: () => {
@@ -50,10 +52,12 @@ const Profile = () => {
   );
 
   const handleFollow = () => {
-    mutation.mutate(relationshipData.includes(currentUser.userID));
+    mutation.mutate(relationshipData.includes(userID));
+    console.log("relationshipData:");
+    console.log(relationshipData);
+    console.log(relationshipData.includes(userID));
   };
 
-  console.log(data);
   return (
     <div className="profile">
       {isLoading ? (
@@ -88,9 +92,7 @@ const Profile = () => {
                   <button onClick={() => setOpenUpdate(true)}>update</button>
                 ) : (
                   <button onClick={handleFollow}>
-                    {relationshipData.includes(currentUser.userID)
-                      ? "Following"
-                      : "Follow"}
+                    {relationshipData.includes(userID) ? "Following" : "Follow"}
                   </button>
                 )}
               </div>
