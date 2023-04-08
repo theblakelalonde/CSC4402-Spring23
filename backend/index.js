@@ -10,6 +10,7 @@ import commentRoutes from "./routes/comments.js";
 import likeRoutes from "./routes/likes.js";
 import suggestionRoutes from "./routes/suggestions.js";
 import searchRoutes from "./routes/searches.js";
+import workoutRoutes from "./routes/workouts.js";
 import checkedInRoutes from "./routes/checkedIns.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -51,6 +52,7 @@ app.use("/backend/posts", postRoutes);
 app.use("/backend/comments", commentRoutes);
 app.use("/backend/suggestions", suggestionRoutes);
 app.use("/backend/likes", likeRoutes);
+app.use("/backend/workouts", workoutRoutes);
 app.use("/backend/checkedIn", checkedInRoutes);
 app.use("/backend/searches", searchRoutes);
 
