@@ -14,57 +14,6 @@ const RightBar = () => {
       <div className="container">
         <Suggestions userID={currentUser.userID} />
         <CheckedInContainer userID={currentUser.userID} />
-        {/* <div className="item">
-          <span>Friends Checked In</span>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> changed their cover photo
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> made a post
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> updated their bio
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> edited an activity
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-        </div> */}
       </div>
     </div>
   );
