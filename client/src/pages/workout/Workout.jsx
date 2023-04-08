@@ -142,13 +142,13 @@ const Workout = () => {
           <div className="checkInTitle">
             <h1>Check In</h1>
             <p>
-              Check in to increase your streak, or select 'Skip Day' to retain
+              Check in to increase your streak, or select 'Rest Day' to retain
               your streak
             </p>
           </div>
           <div className="checkInButtons">
             <button id="check-in-button">Check In</button>
-            <button id="skip-day-button">Skip Day</button>
+            <button id="rest-day-button">Rest Day</button>
           </div>
         </div>
       </div>
