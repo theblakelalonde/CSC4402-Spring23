@@ -28,6 +28,7 @@ The intent of this project is to create a social-fitness web application that ca
 - [x] Change Latest Activity to "checked-in at gym"
 - [x] Create account auto logs you in
 - [ ] Check in streak functionality on workout page
+- [ ] Comment counter matches like counter on post
 - [ ] Get user information for profile page
 - [ ] Make required for first and last name on profile creation
 - [ ] Edit profile functionality
