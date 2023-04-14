@@ -17,6 +17,7 @@ const Workout = () => {
   let setsValue = null;
   let repsValue = null;
   let weightValue = null;
+  let workoutID = null;
 
   const { isLoading: exerciseLoading, data: exerciseArrayData } = useQuery(
     ["workouts"],
@@ -33,72 +34,6 @@ const Workout = () => {
     setErrorMessage(false);
     setSaveWorkoutMessage(false);
   };
-
-  const postResults = () => {
-    postWorkout();
-    for (var i = 0; i < rows.length; i++) {
-      exerciseIDValue = rows[i].ExerciseID;
-      console.log("exerciseIDValue: " + exerciseIDValue);
-      setsValue = rows[i].Sets;
-      repsValue = rows[i].Reps;
-      weightValue = rows[i].Weight;
-
-      if (
-        !exerciseIDValue ||
-        exerciseIDValue === "Select an exercise" ||
-        !setsValue ||
-        !repsValue ||
-        !weightValue
-      ) {
-        // if all the input boxes are not filled out
-        setErrorMessage(true);
-        setSaveWorkoutMessage(false);
-        console.log("errorMessage: " + errorMessage);
-      } else {
-        setErrorMessage(false);
-        console.log("errorMessage: " + errorMessage);
-        postWorkoutSet();
-        setSaveWorkoutMessage(true);
-      }
-    }
-  };
-
-  const { data: workoutData, refetch: postWorkout } = useQuery(
-    ["postworkout"],
-    () =>
-      makeRequest
-        .post("/workouts/postworkout?userID=" + currentUser.userID)
-        .then((res) => {
-          return res.data;
-        }),
-    {
-      enabled: false,
-    }
-  );
-
-  const { refetch: postWorkoutSet } = useQuery(
-    ["postworkoutsets"],
-    () =>
-      makeRequest
-        .post(
-          "/workouts/postworkoutset?workoutID=" +
-            workoutData +
-            "&exerciseIDValue=" +
-            exerciseIDValue +
-            "&setsValue=" +
-            setsValue +
-            "&repsValue=" +
-            repsValue +
-            "&weightValue=" +
-            weightValue
-        )
-        .then((res) => {
-          return res.data;
-        }),
-    {
-      enabled: false,
-    }
-  );
 
   const handleRemoveSpecificRow = (idx) => {
     const tempRows = [...rows];
@@ -135,6 +70,84 @@ const Workout = () => {
     setRows(tempRows);
   };
 
+  const postResults = () => {
+    postWorkout();
+  };
+
+  const { refetch: postWorkout } = useQuery(
+    ["postworkout"],
+    () =>
+      makeRequest
+        .post("/workouts/postworkout?userID=" + currentUser.userID)
+        .then((res) => {
+          workoutID = res.data;
+          return res.data;
+        }),
+    {
+      enabled: false,
+      onSuccess: () => {
+        // console.log(workoutID);
+        for (var i = 0; i < rows.length; i++) {
+          exerciseIDValue = rows[i].ExerciseID;
+          console.log("exerciseIDValue: " + exerciseIDValue);
+          setsValue = rows[i].Sets;
+          repsValue = rows[i].Reps;
+          weightValue = rows[i].Weight;
+
+          if (
+            !exerciseIDValue ||
+            exerciseIDValue === "Select an exercise" ||
+            !setsValue ||
+            !repsValue ||
+            !weightValue
+          ) {
+            console.log("inside if");
+            // if all the input boxes are not filled out
+            setErrorMessage(true);
+            setSaveWorkoutMessage(false);
+          } else {
+            console.log("adding row " + (i + 1) + "/" + rows.length);
+            setErrorMessage(false);
+            var returnedData = postWorkoutSet();
+            console.log("returnedData:");
+            console.log(returnedData);
+
+            console.log("please fuck off");
+            setSaveWorkoutMessage(true);
+          }
+        }
+      },
+    }
+  );
+
+  const { refetch: postWorkoutSet } = useQuery(
+    ["postworkoutsets"],
+    () =>
+      makeRequest
+        .post(
+          "/workouts/postworkoutset?workoutID=" +
+            workoutID +
+            "&exerciseIDValue=" +
+            exerciseIDValue +
+            "&setsValue=" +
+            setsValue +
+            "&repsValue=" +
+            repsValue +
+            "&weightValue=" +
+            weightValue
+        )
+        .then((res) => {
+          console.log("in .then");
+          return res.data;
+        }),
+    {
+      enabled: false,
+      onSuccess: () => {
+        console.log("ran postWorkoutSet");
+      },
+    }
+  );
+
   return (
     <div className="workout">
       <div className="container" id="checkIn">
@@ -142,13 +155,13 @@ const Workout = () => {
           <div className="checkInTitle">
             <h1>Check In</h1>
             <p>
-              Check in to increase your streak, or select 'Skip Day' to retain
+              Check in to increase your streak, or select 'Rest Day' to retain
               your streak
             </p>
           </div>
           <div className="checkInButtons">
             <button id="check-in-button">Check In</button>
-            <button id="skip-day-button">Skip Day</button>
+            <button id="rest-day-button">Rest Day</button>
           </div>
         </div>
       </div>

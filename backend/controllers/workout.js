@@ -36,7 +36,7 @@ export const postWorkoutSet = (req, res) => {
     ],
     (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json(data);
+      return "inserted data for exerciseID: " + req.query.exerciseIDValue;
     }
   );
 };
