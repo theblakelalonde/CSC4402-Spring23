@@ -1,5 +1,5 @@
 import "./workout.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
@@ -85,14 +85,15 @@ const Workout = () => {
         }),
     {
       enabled: false,
-      onSuccess: () => {
-        // console.log(workoutID);
+      onSuccess: async () => {
+        console.log(workoutID);
         for (var i = 0; i < rows.length; i++) {
           exerciseIDValue = rows[i].ExerciseID;
           console.log("exerciseIDValue: " + exerciseIDValue);
           setsValue = rows[i].Sets;
           repsValue = rows[i].Reps;
           weightValue = rows[i].Weight;
+          rows[i].workoutID = workoutID;
 
           if (
             !exerciseIDValue ||
@@ -108,9 +109,15 @@ const Workout = () => {
           } else {
             console.log("adding row " + (i + 1) + "/" + rows.length);
             setErrorMessage(false);
-            var returnedData = postWorkoutSet();
-            console.log("returnedData:");
-            console.log(returnedData);
+
+            // postWorkoutSet();
+
+            //we pass the rows[i] object to the mutation function and use the
+            //rows[i] attributes in the post link it does seem to update correctly
+            //idk if we need the await or not honestly i just know it works and im tired
+            //even if the await doesnt work i dont think there is an async issue now that we're just
+            //sending the object to the function
+            await mutation.mutate(rows[i]);
 
             console.log("please fuck off");
             setSaveWorkoutMessage(true);
@@ -120,33 +127,58 @@ const Workout = () => {
     }
   );
 
-  const { refetch: postWorkoutSet } = useQuery(
-    ["postworkoutsets"],
-    () =>
-      makeRequest
-        .post(
-          "/workouts/postworkoutset?workoutID=" +
-            workoutID +
-            "&exerciseIDValue=" +
-            exerciseIDValue +
-            "&setsValue=" +
-            setsValue +
-            "&repsValue=" +
-            repsValue +
-            "&weightValue=" +
-            weightValue
-        )
-        .then((res) => {
-          console.log("in .then");
-          return res.data;
-        }),
+  //new refetch function
+  //the onSuccess still doesnt run until both are already done
+  //idk whats up with that
+  const mutation = useMutation(
+    (row) => {
+      return makeRequest.post(
+        "/workouts/postworkoutset?workoutID=" +
+          row.workoutID +
+          "&exerciseIDValue=" +
+          row.ExerciseID +
+          "&setsValue=" +
+          row.Sets +
+          "&repsValue=" +
+          row.Reps +
+          "&weightValue=" +
+          row.Weight
+      );
+    },
     {
-      enabled: false,
       onSuccess: () => {
         console.log("ran postWorkoutSet");
       },
     }
   );
+
+  // const { refetch: postWorkoutSet } = useQuery(
+  //   ["postworkoutset"],
+  //   () =>
+  //     makeRequest
+  //       .post(
+  //         "/workouts/postworkoutset?workoutID=" +
+  //           workoutID +
+  //           "&exerciseIDValue=" +
+  //           exerciseIDValue +
+  //           "&setsValue=" +
+  //           setsValue +
+  //           "&repsValue=" +
+  //           repsValue +
+  //           "&weightValue=" +
+  //           weightValue
+  //       )
+  //       .then((res) => {
+  //         console.log("in .then");
+  //         return res.data;
+  //       }),
+  //   {
+  //     enabled: false,
+  //     onSuccess: () => {
+  //       console.log("ran postWorkoutSet");
+  //     },
+  //   }
+  // );
 
   return (
     <div className="workout">
