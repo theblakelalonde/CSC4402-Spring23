@@ -11,6 +11,7 @@ import likeRoutes from "./routes/likes.js";
 import relationshipRoutes from "./routes/relationships.js";
 import suggestionRoutes from "./routes/suggestions.js";
 import searchRoutes from "./routes/searches.js";
+import workoutRoutes from "./routes/workouts.js";
 import checkedInRoutes from "./routes/checkedIns.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -53,6 +54,7 @@ app.use("/backend/comments", commentRoutes);
 app.use("/backend/suggestions", suggestionRoutes);
 app.use("/backend/likes", likeRoutes);
 app.use("/backend/relationships", relationshipRoutes);
+app.use("/backend/workouts", workoutRoutes);
 app.use("/backend/checkedIn", checkedInRoutes);
 app.use("/backend/searches", searchRoutes);
 

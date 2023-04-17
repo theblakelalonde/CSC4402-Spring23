@@ -15,13 +15,11 @@ const Search = ({ currentUser }) => {
     setEmptyString(true);
     if (searchText) {
       setEmptyString(false);
-      console.log("inside if: " + emptyString);
       refetch();
     }
   };
 
   const hideSearchResults = (event) => {
-    console.log("outside of input");
     setEmptyString(true);
   };
 

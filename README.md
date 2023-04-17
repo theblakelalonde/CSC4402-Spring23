@@ -22,13 +22,16 @@ The intent of this project is to create a social-fitness web application that ca
 ## Tasks / Ideas / Features
 
 - [x] Live query when searching for friends on navbar
-- [ ] Workout logger
+- [x] Workout logger
 - [x] Logout Function on profile page
+- [x] Delete comments
+- [x] Change Latest Activity to "checked-in at gym"
+- [x] Create account auto logs you in
+- [ ] Check in streak functionality on workout page
+- [ ] Comment counter matches like counter on post
 - [ ] Get user information for profile page
 - [ ] Make required for first and last name on profile creation
 - [ ] Edit profile functionality
-- [ ] Delete comments
-- [ ] Change Latest Activity to "checked-in at gym"
 - [ ] Dark mode no longer refreshes the page enitrely
-- [x] Create account auto logs you in
+- [ ] Search for user and click brings you to their profile
 - [ ] Post must have either text or image
