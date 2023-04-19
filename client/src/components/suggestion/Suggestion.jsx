@@ -4,6 +4,7 @@ import { makeRequest } from "../../axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const Suggestion = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
@@ -14,8 +15,6 @@ const Suggestion = ({ user }) => {
       makeRequest
         .get("/relationships?followerUserID=" + currentUser.userID)
         .then((res) => {
-          console.log("suggestionRelationshipData: ");
-          console.log(res.data);
           return res.data;
         })
   );
@@ -31,6 +30,10 @@ const Suggestion = ({ user }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["relationship"]);
+        queryClient.invalidateQueries(["checkedIn"]);
+        queryClient.invalidateQueries(["suggestions"]);
+        queryClient.invalidateQueries(["posts"]);
+        queryClient.invalidateQueries(["user"]);
       },
     }
   );
@@ -45,10 +48,16 @@ const Suggestion = ({ user }) => {
         <div className="userInfo">
           <img src={user.profilePic} alt="" />
           <p>
-            <span id="bioName">
-              {user.firstName} {user.lastName}
-            </span>
-            &nbsp;@{user.userName}
+            <Link
+              reloadDocument
+              to={`/profile/${user.userID}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <span className="bioName" id="bioName">
+                {user.firstName} {user.lastName}
+              </span>
+              &nbsp;@{user.userName}
+            </Link>
           </p>
         </div>
         <div className="buttons">

@@ -20,6 +20,8 @@ const Profile = () => {
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userID).then((res) => {
       console.log("inside query in Profile.jsx. user object: " + res.data);
+      console.log(res.data);
+
       return res.data;
     })
   );
@@ -47,6 +49,8 @@ const Profile = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["relationship"]);
+        queryClient.invalidateQueries(["checkedIn"]);
+        queryClient.invalidateQueries(["suggestions"]);
       },
     }
   );
@@ -98,7 +102,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="separator">POSTS</div>
-            <Posts />
+            <Posts userID={userID} />
           </div>
         </>
       )}
