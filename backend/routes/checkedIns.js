@@ -1,8 +1,9 @@
 import express from "express";
-import { getCheckedIns } from "../controllers/checkedIn.js";
+import { getCheckedIns, addCheckedIns } from "../controllers/checkedIn.js";
 
 const router = express.Router();
 
 router.get("/", getCheckedIns);
+router.post("/", addCheckedIns);
 
 export default router;

@@ -9,7 +9,6 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login = async (inputs) => {
-    console.log("login YO: " + inputs);
     const res = await axios.post(
       "http://localhost:8800/backend/auth/login",
       inputs,

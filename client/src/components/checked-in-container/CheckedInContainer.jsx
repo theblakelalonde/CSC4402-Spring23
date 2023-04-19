@@ -10,6 +10,7 @@ const CheckedInContainer = ({ userID }) => {
       return res.data;
     })
   );
+
   return (
     <div className="checkedInContainer">
       <div className="checkedInTitle">

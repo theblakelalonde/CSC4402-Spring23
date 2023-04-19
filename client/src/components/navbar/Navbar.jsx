@@ -5,7 +5,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import FitnessCenterRoundedIcon from "@mui/icons-material/FitnessCenterRounded";
 import InboxRoundedIcon from "@mui/icons-material/InboxRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { DarkModeContext } from "../../context/darkModeContext";
@@ -43,9 +43,15 @@ const Navbar = () => {
         <InboxRoundedIcon className="navbarIcon" />
         <div className="user">
           <img src={currentUser.profilePic} alt="Profile" />
-          <span>
-            {currentUser.firstName} {currentUser.lastName}
-          </span>
+          <Link
+            reloadDocument
+            to={`/profile/${currentUser.userID}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <span>
+              {currentUser.firstName} {currentUser.lastName}
+            </span>
+          </Link>
         </div>
         <LogoutRoundedIcon className="navbarIcon" onClick={logout} />
       </div>
