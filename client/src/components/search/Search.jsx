@@ -4,6 +4,7 @@ import { makeRequest } from "../../axios";
 import PersonSearchRoundedIcon from "@mui/icons-material/PersonSearchRounded";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import { Link } from "react-router-dom";
 
 const Search = ({ currentUser }) => {
   var searchText = "";
@@ -11,6 +12,8 @@ const Search = ({ currentUser }) => {
 
   const sendQuery = (event) => {
     console.log(event.target.value);
+    var element = document.getElementById("searchResults");
+    element.style.display = "block";
     searchText = event.target.value;
     setEmptyString(true);
     if (searchText) {
@@ -19,8 +22,11 @@ const Search = ({ currentUser }) => {
     }
   };
 
+  //we need to think of another way to hide results because it hides too fast
   const hideSearchResults = (event) => {
-    setEmptyString(true);
+    var element = document.getElementById("searchResults");
+    element.style.display = "none";
+    setEmptyString(false);
   };
 
   const { isLoading, error, data, refetch } = useQuery(
@@ -43,23 +49,29 @@ const Search = ({ currentUser }) => {
           type="text"
           id="searchInputBox"
           onChange={sendQuery}
-          onBlur={hideSearchResults}
+          //onBlur={hideSearchResults}
           onFocus={sendQuery}
           placeholder={"Search for other users"}
         />
       </div>
-      <div className="searchResults">
+      <div className="searchResults" id="searchResults">
         {error
           ? "Something went wrong"
           : isLoading || emptyString
           ? ""
           : data.map((foundUser) => (
-              <div className="searchResult">
+              <div className="searchResult" key={foundUser.userID}>
                 <img src={foundUser.profilePic} alt="" />
-                <span className="bioName">
-                  {foundUser.firstName} {foundUser.lastName}
-                </span>
-                <span className="userName"> @{foundUser.userName}</span>
+                <Link
+                  reloadDocument
+                  to={`/profile/${foundUser.userID}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <span className="bioName">
+                    {foundUser.firstName} {foundUser.lastName}
+                  </span>
+                  <span className="userName"> @{foundUser.userName}</span>
+                </Link>
               </div>
             ))}
       </div>

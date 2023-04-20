@@ -1,4 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import "./workout.scss";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
@@ -7,7 +8,6 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./workout.scss";
 import moment from "moment";
 
 const Workout = () => {
@@ -146,6 +146,21 @@ const Workout = () => {
             setSaveWorkoutMessage(true);
           }
         }
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    (status) => {
+      return makeRequest.post("/checkedIn", { status }).then((res) => {
+        return res.data;
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["checkedIns"]);
+        //TODO: this may change to invalidate user query that bryan will make if it works
+        //the way i think it does
+        currentUser.isCheckedIn = 1;
+        localStorage.setItem("user", JSON.stringify(currentUser));
       },
     }
   );
@@ -200,6 +215,10 @@ const Workout = () => {
       enabled: false,
     }
   );
+  
+    const handleCheckIn = async (status) => {
+    mutation.mutate(status);
+  };
 
   return (
     <div className="workout">
@@ -210,13 +229,36 @@ const Workout = () => {
               Check In
             </h1>
             <p className="summary" id="checkInSummary">
+
               Check in to increase your streak, or select 'Rest Day' to retain
               your streak
             </p>
           </div>
-          <div className="checkInButtons">
-            <button id="check-in-button">Check In</button>
-            <button id="rest-day-button">Rest Day</button>
+          <div>
+            <div
+              className="checkInButtons"
+              style={
+                currentUser.isCheckedIn
+                  ? { display: "none" }
+                  : { display: "block" }
+              }
+            >
+              <button id="check-in-button" onClick={() => handleCheckIn(0)}>
+                Check In
+              </button>
+              <button id="rest-day-button" onClick={() => handleCheckIn(1)}>
+                Rest Day
+              </button>
+            </div>
+            <div
+              style={
+                currentUser.isCheckedIn
+                  ? { display: "block" }
+                  : { display: "none" }
+              }
+            >
+              <p>You've checked in for today!</p>
+            </div>
           </div>
         </div>
       </div>
