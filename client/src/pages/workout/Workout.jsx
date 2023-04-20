@@ -41,6 +41,8 @@ const Workout = () => {
     () =>
       makeRequest.get("/workouts/workoutdates/").then((res) => {
         setUserPastWorkoutDates(res.data);
+        console.log("resDAta");
+        console.log(res.data);
         return res.data;
       }),
     {}
@@ -406,7 +408,7 @@ const Workout = () => {
                   <table className="historyTable">
                     <thead>
                       <tr>
-                        <th colspan="4" id="historyTableDateCell">
+                        <th colSpan="4" id="historyTableDateCell">
                           {newDateFormatted}
                         </th>
                       </tr>
