@@ -5,17 +5,27 @@ import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import moment from "moment";
 
 const Workout = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const [rows, setRows] = useState([{}]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [saveWorkoutMessage, setSaveWorkoutMessage] = useState(false);
-  const columnsArray = ["Exercise", "Sets", "Reps", "Weight"]; // pass columns here dynamically
+  const workoutColumnsArray = ["Exercise", "Sets", "Reps", "Weight"]; // pass columns here dynamically
+  const historyColumnsArray = ["exerciseName", "sets", "reps", "weight"];
+  let [userPastWorkoutDates, setUserPastWorkoutDates] = useState([]);
   let exerciseIDValue = null;
   let setsValue = null;
   let repsValue = null;
   let weightValue = null;
+  let workoutID = null;
+  let dateFormatted = "";
+  const [newDateFormatted, setNewDateFormatted] = useState("");
+  let pastWorkout = [];
 
   const { isLoading: exerciseLoading, data: exerciseArrayData } = useQuery(
     ["workouts"],
@@ -24,7 +34,26 @@ const Workout = () => {
         return res.data;
       })
   );
-  var exerciseArray = exerciseArrayData;
+  let exerciseArray = exerciseArrayData;
+
+  const { isLoading: workoutDatesLoading } = useQuery(
+    ["workoutdates"],
+    () =>
+      makeRequest.get("/workouts/workoutdates/").then((res) => {
+        setUserPastWorkoutDates(res.data);
+        return res.data;
+      }),
+    {}
+  );
+
+  if (!workoutDatesLoading && typeof userPastWorkoutDates !== "undefined") {
+    let tempArray = [];
+    for (var i = 0; i < userPastWorkoutDates.length; i++) {
+      var tempString = userPastWorkoutDates[i].date.toString().slice(0, 10);
+      tempArray.push(tempString);
+    }
+    userPastWorkoutDates = tempArray;
+  }
 
   const handleAddRow = () => {
     const item = {};
@@ -32,72 +61,6 @@ const Workout = () => {
     setErrorMessage(false);
     setSaveWorkoutMessage(false);
   };
-
-  const postResults = () => {
-    postWorkout();
-    for (var i = 0; i < rows.length; i++) {
-      exerciseIDValue = rows[i].ExerciseID;
-      console.log("exerciseIDValue: " + exerciseIDValue);
-      setsValue = rows[i].Sets;
-      repsValue = rows[i].Reps;
-      weightValue = rows[i].Weight;
-
-      if (
-        !exerciseIDValue ||
-        exerciseIDValue === "Select an exercise" ||
-        !setsValue ||
-        !repsValue ||
-        !weightValue
-      ) {
-        // if all the input boxes are not filled out
-        setErrorMessage(true);
-        setSaveWorkoutMessage(false);
-        console.log("errorMessage: " + errorMessage);
-      } else {
-        setErrorMessage(false);
-        console.log("errorMessage: " + errorMessage);
-        postWorkoutSet();
-        setSaveWorkoutMessage(true);
-      }
-    }
-  };
-
-  const { data: workoutData, refetch: postWorkout } = useQuery(
-    ["postworkout"],
-    () =>
-      makeRequest
-        .post("/workouts/postworkout?userID=" + currentUser.userID)
-        .then((res) => {
-          return res.data;
-        }),
-    {
-      enabled: false,
-    }
-  );
-
-  const { refetch: postWorkoutSet } = useQuery(
-    ["postworkoutsets"],
-    () =>
-      makeRequest
-        .post(
-          "/workouts/postworkoutset?workoutID=" +
-            workoutData +
-            "&exerciseIDValue=" +
-            exerciseIDValue +
-            "&setsValue=" +
-            setsValue +
-            "&repsValue=" +
-            repsValue +
-            "&weightValue=" +
-            weightValue
-        )
-        .then((res) => {
-          return res.data;
-        }),
-    {
-      enabled: false,
-    }
-  );
 
   const handleRemoveSpecificRow = (idx) => {
     const tempRows = [...rows];
@@ -134,6 +97,55 @@ const Workout = () => {
     setRows(tempRows);
   };
 
+  const postResults = () => {
+    postWorkout();
+  };
+
+  const { refetch: postWorkout } = useQuery(
+    ["postworkout"],
+    () =>
+      makeRequest
+        .post("/workouts/postworkout?userID=" + currentUser.userID)
+        .then((res) => {
+          workoutID = res.data;
+          return res.data;
+        }),
+    {
+      enabled: false,
+      onSuccess: async () => {
+        for (var i = 0; i < rows.length; i++) {
+          exerciseIDValue = rows[i].ExerciseID;
+          console.log("exerciseIDValue: " + exerciseIDValue);
+          setsValue = rows[i].Sets;
+          repsValue = rows[i].Reps;
+          weightValue = rows[i].Weight;
+          rows[i].workoutID = workoutID;
+
+          if (
+            !exerciseIDValue ||
+            exerciseIDValue === "Select an exercise" ||
+            !setsValue ||
+            !repsValue ||
+            !weightValue
+          ) {
+            console.log("inside if");
+            // if all the input boxes are not filled out
+            setErrorMessage(true);
+            setSaveWorkoutMessage(false);
+          } else {
+            setErrorMessage(false);
+
+            // postWorkoutSet();
+
+            //we pass the rows[i] object to the mutation function and use the
+            //rows[i] attributes in the post link it does seem to update correctly
+            //idk if we need the await or not honestly i just know it works and im tired
+            //even if the await doesnt work i dont think there is an async issue now that we're just
+            //sending the object to the function
+            await mutation.mutate(rows[i]);
+            setSaveWorkoutMessage(true);
+          }
+        }
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -153,17 +165,71 @@ const Workout = () => {
     }
   );
 
-  const handleCheckIn = async (status) => {
+  //new refetch function
+  //the onSuccess still doesnt run until both are already done
+  //idk whats up with that
+  const mutation = useMutation((row) => {
+    return makeRequest.post(
+      "/workouts/postworkoutset?workoutID=" +
+        row.workoutID +
+        "&exerciseIDValue=" +
+        row.ExerciseID +
+        "&setsValue=" +
+        row.Sets +
+        "&repsValue=" +
+        row.Reps +
+        "&weightValue=" +
+        row.Weight
+    );
+  });
+
+  const onDateChange = async (newDate) => {
+    dateFormatted = newDate.toISOString().slice(0, 10);
+    setNewDateFormatted(
+      newDate.toLocaleDateString("en-us", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    );
+    // console.log("dateFormatted: ");
+    // console.log(dateFormatted);
+    getWorkoutForDate();
+  };
+
+  const {
+    isLoading: gettingWorkoutForDate,
+    refetch: getWorkoutForDate,
+    data: workoutForSelectedDate,
+  } = useQuery(
+    ["getWorkoutForDate"],
+    () =>
+      makeRequest
+        .get("/workouts/workoutfordate?date=" + dateFormatted)
+        .then((res) => {
+          pastWorkout = res.data;
+          return res.data;
+        }),
+    {
+      enabled: false,
+    }
+  );
+  
+    const handleCheckIn = async (status) => {
     mutation.mutate(status);
   };
 
   return (
     <div className="workout">
       <div className="container" id="checkIn">
-        <div className="center">
-          <div className="checkInTitle">
-            <h1>Check In</h1>
-            <p>
+        <div className="formatting">
+          <div className="description">
+            <h1 className="title" id="checkInTitle">
+              Check In
+            </h1>
+            <p className="summary" id="checkInSummary">
+
               Check in to increase your streak, or select 'Rest Day' to retain
               your streak
             </p>
@@ -197,12 +263,21 @@ const Workout = () => {
         </div>
       </div>
       <div className="container" id="workoutTable">
-        <div className="center">
+        <div className="formatting">
+          <div className="description">
+            <h1 className="title" id="workoutTitle">
+              Save Workout
+            </h1>
+            <p className="summary" id="workoutSummary">
+              Fill out the table below with values from your workout to save and
+              view later
+            </p>
+          </div>
           <div className="tableDiv">
             <table className="workoutTable">
               <thead>
                 <tr>
-                  {columnsArray.map((column, index) => (
+                  {workoutColumnsArray.map((column, index) => (
                     <th className="tableHeader" key={index}>
                       {column}
                     </th>
@@ -235,7 +310,7 @@ const Workout = () => {
                             })}
                       </select>
                     </td>
-                    {columnsArray.slice(1).map((column, index) => (
+                    {workoutColumnsArray.slice(1).map((column, index) => (
                       <td key={index}>
                         <input
                           id={"optionInput" + column + index}
@@ -285,6 +360,88 @@ const Workout = () => {
               <button onClick={postResults} id="saveWorkoutButton">
                 Save Results
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container" id="history">
+        <div className="formatting">
+          <div className="description">
+            <h1 className="title" id="historyTitle">
+              History
+            </h1>
+            <p className="summary" id="historySummary">
+              Interact with the calendar to view previously saved workouts
+            </p>
+          </div>
+          <div id="historyContent">
+            <div id="calendarDiv">
+              {workoutDatesLoading ? (
+                <p>loading</p>
+              ) : (
+                <Calendar
+                  tileClassName={({ date, view }) => {
+                    if (
+                      userPastWorkoutDates.find(
+                        (x) => x === moment(date).format("YYYY-MM-DD")
+                      )
+                    ) {
+                      return "highlight";
+                    }
+                  }}
+                  onChange={onDateChange}
+                ></Calendar>
+              )}
+            </div>
+            <div id="pastWorkoutTable">
+              <div className="center">
+                {gettingWorkoutForDate ? (
+                  <p></p>
+                ) : workoutForSelectedDate.length < 1 ? (
+                  <p>No workout saved on selected date</p>
+                ) : (
+                  <table className="historyTable">
+                    <thead>
+                      <tr>
+                        <th colspan="4" id="historyTableDateCell">
+                          {newDateFormatted}
+                        </th>
+                      </tr>
+                      <tr id="historyTableHeaderRow">
+                        <th
+                          className="historyTableHeaderCell"
+                          id="exerciseColumn"
+                        >
+                          Exercise
+                        </th>
+                        <th className="historyTableHeaderCell" id="setsColumn">
+                          Sets
+                        </th>
+                        <th className="historyTableHeaderCell" id="repsColumn">
+                          Reps
+                        </th>
+                        <th
+                          className="historyTableHeaderCell"
+                          id="weightColumn"
+                        >
+                          Weight (lb)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {workoutForSelectedDate.map((item, idx) => (
+                        <tr key={idx} id="historyTableRow">
+                          {historyColumnsArray.map((column, index) => (
+                            <td key={index} id="historyTableCell">
+                              <p>{workoutForSelectedDate[idx][column]}</p>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
             </div>
           </div>
         </div>
