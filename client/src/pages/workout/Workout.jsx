@@ -146,9 +146,13 @@ const Workout = () => {
             setSaveWorkoutMessage(true);
           }
         }
+      },
+    }
+  );
+
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
+  const mutationCheckIn = useMutation(
     (status) => {
       return makeRequest.post("/checkedIn", { status }).then((res) => {
         return res.data;
@@ -215,9 +219,9 @@ const Workout = () => {
       enabled: false,
     }
   );
-  
-    const handleCheckIn = async (status) => {
-    mutation.mutate(status);
+
+  const handleCheckIn = async (status) => {
+    mutationCheckIn.mutate(status);
   };
 
   return (
@@ -229,7 +233,6 @@ const Workout = () => {
               Check In
             </h1>
             <p className="summary" id="checkInSummary">
-
               Check in to increase your streak, or select 'Rest Day' to retain
               your streak
             </p>
