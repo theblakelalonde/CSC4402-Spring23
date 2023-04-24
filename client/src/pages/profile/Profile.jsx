@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import Update from "../../components/update/Update";
 
 const Profile = () => {
   window.scrollTo(0, 0);
@@ -69,12 +70,12 @@ const Profile = () => {
       ) : (
         <>
           <div className="images">
+            <img src={"/upload/" + data.coverPic} alt="" className="cover" />
             <img
-              src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src={"/upload/" + data.profilePic}
               alt=""
-              className="cover"
+              className="profilePic"
             />
-            <img src={data.profilePic} alt="" className="profilePic" />
           </div>
           <div className="profileContainer">
             <div className="uInfo">
@@ -83,7 +84,7 @@ const Profile = () => {
                 <div className="info">
                   <div className="item">
                     <PlaceIcon />
-                    <span>Baton Rouge</span>
+                    <span>{data.city}</span>
                   </div>
                   <div className="item">
                     <LanguageIcon />
@@ -93,7 +94,7 @@ const Profile = () => {
                 {rIsLoading ? (
                   "loading"
                 ) : userID === currentUser.userID ? (
-                  <button onClick={() => setOpenUpdate(true)}>update</button>
+                  <button onClick={() => setOpenUpdate(true)}>Update</button>
                 ) : (
                   <button onClick={handleFollow}>
                     {relationshipData.includes(userID) ? "Following" : "Follow"}
@@ -106,6 +107,7 @@ const Profile = () => {
           </div>
         </>
       )}
+      {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={data} />}
     </div>
   );
 };
