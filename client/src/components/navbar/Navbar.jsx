@@ -42,7 +42,7 @@ const Navbar = () => {
         </Link>
         <InboxRoundedIcon className="navbarIcon" />
         <div className="user">
-          <img src={currentUser.profilePic} alt="Profile" />
+          <img src={"/upload/" + currentUser.profilePic} alt="Profile" />
           <Link
             reloadDocument
             to={`/profile/${currentUser.userID}`}

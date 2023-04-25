@@ -10,7 +10,7 @@ const CheckedIn = ({ user }) => {
     <div className="checkedInItem">
       <div className="user">
         <div className="userInfo">
-          <img src={user.profilePic} alt="" />
+          <img src={"/upload/" + user.profilePic} alt="" />
           {user.isResting === 1 ? (
             <p>
               <Link

@@ -23,6 +23,14 @@ const Post = ({ post }) => {
     })
   );
 
+  const { isLoading: loadingComment, data: commentData } = useQuery(
+    ["comments" + post.postsID],
+    () =>
+      makeRequest.get("/comments?postID=" + post.postsID).then((res) => {
+        return res.data;
+      })
+  );
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -61,7 +69,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={"/upload/" + post.profilePic} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userID}`}
@@ -102,7 +110,8 @@ const Post = ({ post }) => {
             {data?.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
-            <TextsmsOutlinedIcon />3 Comments
+            <TextsmsOutlinedIcon />
+            {commentData?.length} Comments
           </div>
         </div>
         {commentOpen && <Comments postID={post.postsID} />}

@@ -61,7 +61,7 @@ const Search = ({ currentUser }) => {
           ? ""
           : data.map((foundUser) => (
               <div className="searchResult" key={foundUser.userID}>
-                <img src={foundUser.profilePic} alt="" />
+                <img src={"/upload/" + foundUser.profilePic} alt="" />
                 <Link
                   reloadDocument
                   to={`/profile/${foundUser.userID}`}

@@ -46,7 +46,7 @@ const Suggestion = ({ user }) => {
     <div className="suggestionItem">
       <div className="user">
         <div className="userInfo">
-          <img src={user.profilePic} alt="" />
+          <img src={"/upload/" + user.profilePic} alt="" />
           <p>
             <Link
               reloadDocument

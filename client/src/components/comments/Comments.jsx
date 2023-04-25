@@ -17,7 +17,6 @@ const Comments = ({ postID }) => {
     })
   );
 
-
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -32,17 +31,15 @@ const Comments = ({ postID }) => {
   );
 
   const openCommentMenu = (commentID, userID) => {
-    var element = document.getElementById(commentID)
-    if (userID === currentUser.userID){
-
-      if(element.style.display === "none"){
-        element.style.display = "initial"
-      }else{
-        element.style.display = "none"
+    var element = document.getElementById(commentID);
+    if (userID === currentUser.userID) {
+      if (element.style.display === "none") {
+        element.style.display = "initial";
+      } else {
+        element.style.display = "none";
       }
     }
-    
-  }
+  };
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -63,15 +60,14 @@ const Comments = ({ postID }) => {
 
   const handleDeleteComment = (commentID) => {
     deleteCommentMutation.mutate(commentID);
-    var element = document.getElementById(commentID)
-    element.style.display = "none"
-
+    var element = document.getElementById(commentID);
+    element.style.display = "none";
   };
 
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
+        <img src={"/upload/" + currentUser.profilePic} alt="" />
         <input
           type="text"
           placeholder="Write a comment"
@@ -85,9 +81,9 @@ const Comments = ({ postID }) => {
         ? "Something went wrong"
         : isLoading
         ? "loading"
-        : data.map((comment) => ( 
-            <div className="comment" key={comment.commentID} >
-              <img src={comment.profilePic} alt="" />
+        : data.map((comment) => (
+            <div className="comment" key={comment.commentID}>
+              <img src={"/upload/" + comment.profilePic} alt="" />
               <div className="info">
                 <div className="commentUserInfo">
                   <span className="bioName">
@@ -102,9 +98,17 @@ const Comments = ({ postID }) => {
               </div>
               <MoreHorizIcon
                 className="threeDots"
-                onClick={() => openCommentMenu(comment.commentID, comment.userID)}
-               />
-              <button id={comment.commentID} style={{display: "none"}} onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
+                onClick={() =>
+                  openCommentMenu(comment.commentID, comment.userID)
+                }
+              />
+              <button
+                id={comment.commentID}
+                style={{ display: "none" }}
+                onClick={() => handleDeleteComment(comment.commentID)}
+              >
+                Delete
+              </button>
             </div>
           ))}
     </div>
