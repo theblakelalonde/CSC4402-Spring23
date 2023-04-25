@@ -45,6 +45,7 @@
           cursor: pointer;
           font-size: 20px;
           font-weight: bold;
+          margin-right: 10px;
         }
         #rest-day-button {
           font-family: inherit;
@@ -139,13 +140,16 @@
             border-radius: 1em;
             color: themed(textColor);
             border: none;
+            padding: 10px;
           }
-          .react-calendar__navigation button {
+          .react-calendar__navigation button,
+          .react-calendar__tile--active {
             color: themed(textColor);
             min-width: 44px;
             background: none;
-            font-size: 16px;
-            margin-top: 8px;
+            font-weight: bold;
+            // font-size: 16px;
+            // margin-top: 8px;
           }
           abbr[title] {
             text-decoration: none;
@@ -163,17 +167,23 @@
           .react-calendar__tile:enabled:focus {
             background-color: themed(textColor);
             color: themed(bg);
-            border-radius: 6px;
+            border-radius: 25px;
           }
-          .react-calendar__tile--active {
+          // .react-calendar__tile--active {
+          //   background: themed(redColor);
+          //   border-radius: 25px;
+          //   font-weight: bold;
+          //   color: white;
+          // }
+          .react-calendar__tile--now {
             background: themed(redColor);
-            border-radius: 6px;
+            border-radius: 25px;
             font-weight: bold;
             color: white;
           }
           .highlight {
             background-color: rgb(10, 179, 18);
-            border-radius: 6px;
+            border-radius: 25px;
             color: white;
           }
         }
