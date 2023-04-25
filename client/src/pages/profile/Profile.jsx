@@ -20,9 +20,6 @@ const Profile = () => {
 
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userID).then((res) => {
-      console.log("inside query in Profile.jsx. user object: " + res.data);
-      console.log(res.data);
-
       return res.data;
     })
   );
@@ -33,8 +30,6 @@ const Profile = () => {
       makeRequest
         .get("/relationships?followerUserID=" + currentUser.userID)
         .then((res) => {
-          console.log("relationshipData: ");
-          console.log(res.data);
           return res.data;
         })
   );

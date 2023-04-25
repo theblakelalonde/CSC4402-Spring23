@@ -8,9 +8,12 @@ const Update = ({ setOpenUpdate, user }) => {
   const [cover, setCover] = useState(null);
   const [profile, setProfile] = useState(null);
   const [texts, setTexts] = useState({
-    userName: "",
-    city: "",
-    website: "",
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    userName: user.userName,
+    city: user.city,
+    website: user.website,
   });
 
   const upload = async (file) => {
@@ -32,7 +35,11 @@ const Update = ({ setOpenUpdate, user }) => {
 
   const mutation = useMutation(
     (user) => {
-      return makeRequest.put("/users", user);
+      return makeRequest.put("/users", user).then((res) => {
+        window.location.reload(false);
+        localStorage.setItem("user", JSON.stringify(res.data[0]));
+        return res.data;
+      });
     },
     {
       onSuccess: () => {
@@ -40,8 +47,6 @@ const Update = ({ setOpenUpdate, user }) => {
       },
     }
   );
-
-  console.log(user);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -59,14 +64,83 @@ const Update = ({ setOpenUpdate, user }) => {
     <div className="update">
       <h1>Update User Profile</h1>
       <form>
-        <span>Cover Photo</span>
-        <input type="file" onChange={(e) => setCover(e.target.files[0])} />
-        <span>Profile Picture</span>
-        <input type="file" onChange={(e) => setProfile(e.target.files[0])} />
+        <div className="files">
+          <label htmlFor="cover">
+            <span>Cover Picture</span>
+            <div className="imgContainer">
+              <img
+                src={
+                  cover
+                    ? URL.createObjectURL(cover)
+                    : "/upload/" + user.coverPic
+                }
+                alt=""
+              />
+              <CloudUploadIcon className="icon" />
+            </div>
+          </label>
+          <input
+            type="file"
+            id="cover"
+            style={{ display: "none" }}
+            onChange={(e) => setCover(e.target.files[0])}
+          />
+          <label htmlFor="profile">
+            <span>Profile Picture</span>
+            <div className="imgContainer">
+              <img
+                src={
+                  profile
+                    ? URL.createObjectURL(profile)
+                    : "/upload/" + user.profilePic
+                }
+                alt=""
+              />
+              <CloudUploadIcon className="icon" />
+            </div>
+          </label>
+          <input
+            type="file"
+            id="profile"
+            style={{ display: "none" }}
+            onChange={(e) => setProfile(e.target.files[0])}
+          />
+        </div>
+        <span>Email</span>
+        <input
+          type="text"
+          value={texts.email}
+          name="email"
+          onChange={handleChange}
+        />
+        <span>First Name</span>
+        <input
+          type="text"
+          name="firstName"
+          value={texts.firstName}
+          onChange={handleChange}
+        />
+        <span>Last Name</span>
+        <input
+          type="text"
+          name="lastName"
+          value={texts.lastName}
+          onChange={handleChange}
+        />
         <span>Username</span>
-        <input type="text" name="userName" onChange={handleChange} />
+        <input
+          type="text"
+          name="userName"
+          value={texts.userName}
+          onChange={handleChange}
+        />
         <span>City</span>
-        <input type="text" name="city" onChange={handleChange} />
+        <input
+          type="text"
+          name="city"
+          value={texts.city}
+          onChange={handleChange}
+        />
         <button onClick={handleClick}>Update</button>
       </form>
       <button onClick={() => setOpenUpdate(false)}>X</button>

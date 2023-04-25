@@ -21,21 +21,32 @@ export const updateUser = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q =
-      "UPDATE users SET `userName`=?,`city`=?, `profilePic`=?,`coverPic`=? WHERE userID=? ";
+      "UPDATE users SET `email`=?, `firstName`=?,`lastName`=?, `userName`=?,`city`=?, `profilePic`=?,`coverPic`=? WHERE userID=? ";
 
     db.query(
       q,
       [
+        req.body.email,
+        req.body.firstName,
+        req.body.lastName,
         req.body.userName,
-        req.body.city,        
+        req.body.city,
         req.body.profilePic,
         req.body.coverPic,
         userInfo.id,
       ],
       (err, data) => {
         if (err) res.status(500).json(err);
-        if (data.affectedRows > 0) return res.json("Updated!");
-        return res.status(403).json("You can update only your post!");
+        if (data.affectedRows === 0)
+          return res.status(403).json("You can update only your post!");
+
+        const q =
+          "SELECT userID, userName, email, firstName, lastName, profilePic, coverPic, city, isCheckedIn from users WHERE userID = ?";
+
+        db.query(q, userInfo.id, (err, data) => {
+          if (err) return res.status(500).json(err);
+          return res.status(200).json(data);
+        });
       }
     );
   });

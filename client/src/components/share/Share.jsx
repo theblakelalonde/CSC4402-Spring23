@@ -78,10 +78,6 @@ const Share = () => {
                 <span>Add Image</span>
               </div>
             </label>
-            <div className="item">
-              <img src={Friend} alt="" />
-              <span>Tag Friends</span>
-            </div>
           </div>
           <div className="right">
             <AddCircleRoundedIcon

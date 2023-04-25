@@ -40,7 +40,6 @@ const Navbar = () => {
         >
           <FitnessCenterRoundedIcon className="navbarIcon" />
         </Link>
-        <InboxRoundedIcon className="navbarIcon" />
         <div className="user">
           <img src={"/upload/" + currentUser.profilePic} alt="Profile" />
           <Link
