@@ -1,6 +1,6 @@
 import "./profile.scss";
 import PlaceIcon from "@mui/icons-material/Place";
-import LanguageIcon from "@mui/icons-material/Language";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import Posts from "../../components/posts/Posts";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
@@ -20,6 +20,7 @@ const Profile = () => {
 
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userID).then((res) => {
+      console.log(res.data);
       return res.data;
     })
   );
@@ -77,21 +78,22 @@ const Profile = () => {
               <div className="center">
                 <span>{data.userName}</span>
                 <div className="info">
-                  <div className="item">
+                  <div className="item" id="cityDiv">
                     <PlaceIcon />
                     <span>{data.city}</span>
                   </div>
-                  <div className="item">
-                    <LanguageIcon />
-                    <span>Mog</span>
+                  <div className="item" id="streakDiv">
+                    <span>Current Streak: 🔥{data.streak}</span>
                   </div>
                 </div>
                 {rIsLoading ? (
                   "loading"
                 ) : userID === currentUser.userID ? (
-                  <button onClick={() => setOpenUpdate(true)}>Update</button>
+                  <button id="editButton" onClick={() => setOpenUpdate(true)}>
+                    <EditRoundedIcon></EditRoundedIcon>Edit Profile
+                  </button>
                 ) : (
-                  <button onClick={handleFollow}>
+                  <button id="followButton" onClick={handleFollow}>
                     {relationshipData.includes(userID) ? "Following" : "Follow"}
                   </button>
                 )}
