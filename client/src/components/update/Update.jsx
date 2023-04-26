@@ -62,88 +62,100 @@ const Update = ({ setOpenUpdate, user }) => {
 
   return (
     <div className="update">
-      <h1>Update User Profile</h1>
-      <form>
-        <div className="files">
-          <label htmlFor="cover">
-            <span>Cover Picture</span>
-            <div className="imgContainer">
-              <img
-                src={
-                  cover
-                    ? URL.createObjectURL(cover)
-                    : "/upload/" + user.coverPic
-                }
-                alt=""
-              />
-              <CloudUploadIcon className="icon" />
-            </div>
-          </label>
-          <input
-            type="file"
-            id="cover"
-            style={{ display: "none" }}
-            onChange={(e) => setCover(e.target.files[0])}
-          />
-          <label htmlFor="profile">
-            <span>Profile Picture</span>
-            <div className="imgContainer">
-              <img
-                src={
-                  profile
-                    ? URL.createObjectURL(profile)
-                    : "/upload/" + user.profilePic
-                }
-                alt=""
-              />
-              <CloudUploadIcon className="icon" />
-            </div>
-          </label>
-          <input
-            type="file"
-            id="profile"
-            style={{ display: "none" }}
-            onChange={(e) => setProfile(e.target.files[0])}
-          />
+      <div className="container">
+        <button id="exitButton" onClick={() => setOpenUpdate(false)}>
+          X
+        </button>
+        <div className="title">
+          <h1>Update User Profile</h1>
         </div>
-        <span>Email</span>
-        <input
-          type="text"
-          value={texts.email}
-          name="email"
-          onChange={handleChange}
-        />
-        <span>First Name</span>
-        <input
-          type="text"
-          name="firstName"
-          value={texts.firstName}
-          onChange={handleChange}
-        />
-        <span>Last Name</span>
-        <input
-          type="text"
-          name="lastName"
-          value={texts.lastName}
-          onChange={handleChange}
-        />
-        <span>Username</span>
-        <input
-          type="text"
-          name="userName"
-          value={texts.userName}
-          onChange={handleChange}
-        />
-        <span>City</span>
-        <input
-          type="text"
-          name="city"
-          value={texts.city}
-          onChange={handleChange}
-        />
-        <button onClick={handleClick}>Update</button>
-      </form>
-      <button onClick={() => setOpenUpdate(false)}>X</button>
+        <form>
+          <div className="files">
+            <label htmlFor="cover">
+              <span>Cover Picture</span>
+              <div className="imgContainer">
+                <img
+                  src={
+                    cover
+                      ? URL.createObjectURL(cover)
+                      : "/upload/" + user.coverPic
+                  }
+                  alt=""
+                />
+                <CloudUploadIcon className="icon" />
+              </div>
+            </label>
+            <input
+              type="file"
+              id="cover"
+              style={{ display: "none" }}
+              onChange={(e) => setCover(e.target.files[0])}
+            />
+            <label htmlFor="profile">
+              <span>Profile Picture</span>
+              <div className="imgContainer">
+                <img
+                  src={
+                    profile
+                      ? URL.createObjectURL(profile)
+                      : "/upload/" + user.profilePic
+                  }
+                  alt=""
+                />
+                <CloudUploadIcon className="icon" />
+              </div>
+            </label>
+            <input
+              type="file"
+              id="profile"
+              style={{ display: "none" }}
+              onChange={(e) => setProfile(e.target.files[0])}
+            />
+          </div>
+          <div className="inputDiv">
+            <span>Email</span>
+            <input
+              type="text"
+              value={texts.email}
+              name="email"
+              onChange={handleChange}
+            />
+            <span>First Name</span>
+            <input
+              type="text"
+              name="firstName"
+              value={texts.firstName}
+              onChange={handleChange}
+            />
+            <span>Last Name</span>
+            <input
+              type="text"
+              name="lastName"
+              value={texts.lastName}
+              onChange={handleChange}
+            />
+            <span>Username</span>
+            <input
+              type="text"
+              name="userName"
+              value={texts.userName}
+              onChange={handleChange}
+            />
+            <span>City</span>
+            <input
+              type="text"
+              name="city"
+              value={texts.city}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="updateButtonDiv">
+            <button id="updateButton" onClick={handleClick}>
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

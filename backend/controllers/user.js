@@ -4,9 +4,14 @@ import jwt from "jsonwebtoken";
 export const getUser = (req, res) => {
   const userId = req.params.userID;
   // console.log("user.js userId is: " + userId);
-  const q = "SELECT * FROM users WHERE userID=?";
+  const q = `SELECT users.*, (CASE 
+    WHEN EXISTS(SELECT * FROM checkIn WHERE userID >= ? AND DATE(checkInDate) = DATE_SUB(CURDATE(), INTERVAL 1 DAY))
+    THEN (select streak from checkIn where userID = ? 
+    AND checkInDate IN (SELECT max(checkInDate) FROM checkIn where checkIn.userID = ? ))
+    ELSE 0
+    END) as streak FROM users WHERE userID=?`;
 
-  db.query(q, [userId], (err, data) => {
+  db.query(q, [userId, userId, userId, userId], (err, data) => {
     if (err) return res.status(500).json(err);
     const { password, ...info } = data[0];
     return res.json(info);

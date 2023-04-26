@@ -89,14 +89,18 @@
             color: themed("textColorSoft");
 
             span {
-              font-size: 12px;
+              font-size: 15px;
             }
           }
         }
         button {
+          display: flex;
           border: none;
           background-color: rgb(10, 179, 18);
           color: white;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
           padding: 10px 20px;
           border-radius: 5px;
           cursor: pointer;
