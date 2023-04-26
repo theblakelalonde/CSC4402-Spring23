@@ -83,7 +83,9 @@ const Profile = () => {
                     <span>{data.city}</span>
                   </div>
                   <div className="item" id="streakDiv">
-                    <span>Current Streak: 🔥{data.streak}</span>
+                    <span>
+                      Current Streak: {data.streak ? data.streak : 0}🔥
+                    </span>
                   </div>
                 </div>
                 {rIsLoading ? (
