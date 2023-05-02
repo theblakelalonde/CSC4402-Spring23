@@ -8,6 +8,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [blankErr, setblankErr] = useState(false);
 
   const [err, setErr] = useState(null);
 
@@ -23,10 +24,14 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      await login(inputs);
-    } catch (err) {
-      setErr(err.response.data);
+    if (inputs.username != "" && inputs.password != "") {
+      try {
+        await login(inputs);
+      } catch (err) {
+        setErr(err.response.data);
+      }
+    } else {
+      setblankErr(true);
     }
   };
   if (currentUser) {
@@ -37,11 +42,9 @@ const Login = () => {
     <div className="login">
       <div className="card">
         <div className="left">
-          <h1>MOG World</h1>
+          <h1>MOG</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero cum,
-            alias totam numquam ipsa exercitationem dignissimos, error nam,
-            consequatur.
+            Track your exercises and find your community of fitness enthusiasts
           </p>
           <span>Don't have an account?</span>
           <Link to="/register">
@@ -64,6 +67,7 @@ const Login = () => {
               onChange={handleChange}
             />
             {err && err}
+            {blankErr && <p>Both fields must be filled!</p>}
             <button onClick={handleLogin}>Login</button>
           </form>
         </div>
